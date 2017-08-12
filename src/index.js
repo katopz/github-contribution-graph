@@ -3,26 +3,27 @@ import SVG from 'svg.js'
 const gcg = {
   id: 'gcg',
   limit: 3,
-  padding: 2
+  padding: 2,
+  boxSize: 16
 }
 
-const GCGraph = () => {
+const GCGraph = id => {
   var element = document.createElement('div')
   element.innerHTML = 'Hi!!'
-  element.id = gcg.id
+  element.id = id
 
   return element
 }
 
-const drawGCGraph = ({ boxSize, boxes, limit, padding }) => {
-  const draw = SVG(gcg.id).size('100%', '100%')
+const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
+  const draw = SVG(id).size('100%', '100%')
 
   let index = 0
 
   boxes.map(box => {
     // move
-    const i = boxSize * (index % limit) + padding
-    const j = boxSize * Math.floor(index / limit) + padding
+    const i = (boxSize + padding) * (index % limit)
+    const j = (boxSize + padding) * Math.floor(index / limit)
 
     // shape
     draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
@@ -32,10 +33,9 @@ const drawGCGraph = ({ boxSize, boxes, limit, padding }) => {
   })
 }
 
-document.body.appendChild(GCGraph())
-drawGCGraph({
-  limit: gcg.limit,
-  padding: gcg.padding,
-  boxSize: 16,
-  boxes: [{ color: 'red' }, { color: 'green' }, { color: 'blue' }, { color: 'red' }, { color: 'green' }, { color: 'blue' }]
-})
+document.body.appendChild(GCGraph(gcg.id))
+drawGCGraph(
+  Object.assign(gcg, {
+    boxes: [{ color: 'red' }, { color: 'green' }, { color: 'blue' }, { color: 'red' }, { color: 'green' }, { color: 'blue' }]
+  })
+)
