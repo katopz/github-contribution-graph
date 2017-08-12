@@ -1,0 +1,33 @@
+{
+  "name": "github-contribution-graph",
+  "version": "1.0.0",
+  "description": "Github's contribution graph SVG generator",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --progress --watch",
+    "start": "webpack-dev-server --open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katopz/github-contribution-graph.git"
+  },
+  "keywords": [
+    "github"
+  ],
+  "author": "katopz@gmsil.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/katopz/github-contribution-graph/issues"
+  },
+  "homepage": "https://github.com/katopz/github-contribution-graph#readme",
+  "dependencies": {
+    "svg.js": "^2.6.3"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.16",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.5.4",
+    "webpack-dev-server": "^2.7.1"
+  }
+}
