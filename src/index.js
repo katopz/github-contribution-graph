@@ -1,4 +1,5 @@
 import SVG from 'svg.js'
+import { daysInMonth } from './helper'
 
 const gcg = {
   id: 'gcg',
@@ -9,7 +10,7 @@ const gcg = {
 
 const GCGraph = id => {
   var element = document.createElement('div')
-  element.innerHTML = 'Hi!!'
+  element.innerHTML = 'Summary'
   element.id = id
 
   return element
@@ -19,25 +20,33 @@ const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
   // Canvas
   const draw = SVG(id).size('100%', '100%')
 
-  // Months
-  const monthX = 0
-  const monthY = 10
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const now = new Date()
+  const currentYear = now.getFullYear()
   const currentMonth = new Date().getMonth()
 
+  // Months
+  const monthOffsetX = 0
+  const monthOffsetY = 10
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
+
   const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
+  const boxSizePadding = boxSize + padding
 
   let monthIndex = 0
+  let daysInMonthSum = 0
   slideMonths.map(month => {
-    let text = draw.text(slideMonths[monthIndex])
+    const monthX = Math.floor(daysInMonthSum / 7) * boxSizePadding
+    let text = draw.text(slideMonths[monthIndex].name)
     text
       .font({
         family: 'Helvetica'
       })
-      .move(monthX + monthIndex * 40, monthY)
+      .move(monthOffsetX + monthX, monthOffsetY)
 
     // next
     monthIndex++
+    daysInMonthSum += month.days
   })
 
   // Boxes
@@ -46,8 +55,8 @@ const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
   let index = 0
   boxes.map(box => {
     // move
-    const i = boxX + (boxSize + padding) * (index % limit)
-    const j = boxY + (boxSize + padding) * Math.floor(index / limit)
+    const i = boxX + boxSizePadding * (index % limit)
+    const j = boxY + boxSizePadding * Math.floor(index / limit)
 
     // shape
     draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
@@ -66,7 +75,6 @@ for (let i = 0; i < MAX_DAY; i++) {
   })
 }
 
-console.log(boxes)
 drawGCGraph(
   Object.assign(gcg, {
     boxes
