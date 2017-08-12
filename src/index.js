@@ -2,9 +2,9 @@ import SVG from 'svg.js'
 
 const gcg = {
   id: 'gcg',
-  limit: 3,
+  limit: 52,
   padding: 2,
-  boxSize: 16
+  boxSize: 8
 }
 
 const GCGraph = id => {
@@ -24,7 +24,7 @@ const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
   const monthY = 10
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const currentMonth = new Date().getMonth()
-  console.log(currentMonth)
+
   const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
 
   let monthIndex = 0
@@ -40,7 +40,7 @@ const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
     monthIndex++
   })
 
-  // Box
+  // Boxes
   const boxX = 0
   const boxY = 40
   let index = 0
@@ -58,8 +58,17 @@ const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
 }
 
 document.body.appendChild(GCGraph(gcg.id))
+const MAX_DAY = 364
+let boxes = new Array(MAX_DAY)
+for (let i = 0; i < MAX_DAY; i++) {
+  boxes.push({
+    color: ['red', 'green', 'blue'][Math.floor(Math.random() * 3)]
+  })
+}
+
+console.log(boxes)
 drawGCGraph(
   Object.assign(gcg, {
-    boxes: [{ color: 'red' }, { color: 'green' }, { color: 'blue' }, { color: 'red' }, { color: 'green' }, { color: 'blue' }]
+    boxes
   })
 )
