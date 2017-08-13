@@ -13,9 +13,6 @@ const gcg = {
   boxSize: 10
 }
 
-const graph = GCGraph(gcg.id)
-document.body.appendChild(graph)
-
 // Data
 const MAX_DAY = 365
 let boxes = []
@@ -25,10 +22,15 @@ for (let i = 0; i < MAX_DAY; i++) {
   })
 }
 
-// Tool tip
+// Graph
+const graph = GCGraph(gcg.id)
+document.body.appendChild(graph)
+
+// Tooltip
 const tooltip = CGTooltip()
 document.body.appendChild(tooltip)
 
+// Inject
 const now = new Date()
 drawGCGraph(
   Object.assign(gcg, {
