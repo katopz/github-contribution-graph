@@ -2,20 +2,28 @@ const GCTooltip = bubbleWidth => {
   const element = document.createElement('span')
   element.id = 'tooltiptext'
   element.className = 'tooltiptext'
-  element.innerHTML = 'Hi@!'
+  element.innerHTML = '...'
+  element.style.visibility = 'hidden'
 
-  element.show = (position, data) => {
+  element.show = (id, position, data) => {
     element.style.visibility = 'visible'
     element.firstChild.data = data
     element.style.left = `${position.x - bubbleWidth / 2}px`
     element.style.top = `${position.y}px`
+    element.target = id
   }
 
-  element.hide = () => (element.style.visibility = 'hidden')
+  element.hide = () => {
+    element.style.visibility = 'hidden'
+    element.target = null
+  }
 
-  element.toggle = (position, data) => {
-    if (element.style.visibility === 'hidden') element.show(position, data)
-    else element.hide()
+  element.toggle = (id, position, data) => {
+    if (element.style.visibility === 'hidden' || element.target !== id) {
+      element.show(id, position, data)
+    } else {
+      element.hide()
+    }
   }
 
   addStyle(bubbleWidth)
