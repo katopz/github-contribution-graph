@@ -35,7 +35,7 @@ const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
   let dayY = boxSizePadding
   const drawDays = ['Mon', 'Wed', 'Fri']
   drawDays.map((day, index) => {
-    let text = draw.text(day)
+    const text = draw.text(day)
     text.font(font).move(dayOffsetX, dayOffsetY + dayY)
     dayY += boxSizePadding * 2
   })
@@ -43,7 +43,7 @@ const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
 
   const now = new Date()
   const currentYear = now.getFullYear()
-  const currentMonth = new Date().getMonth()
+  const currentMonth = now.getMonth()
 
   // Months
   const monthOffsetX = offsetX
