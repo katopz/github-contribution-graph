@@ -11,10 +11,7 @@ const CGTooltip = bubbleWidth => {
     element.style.top = `${position.y}px`
   }
 
-  element.hide = () => {
-    console.log('hide')
-    element.style.visibility = 'hidden'
-  }
+  element.hide = () => (element.style.visibility = 'hidden')
 
   addStyle(bubbleWidth)
 
