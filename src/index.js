@@ -7,9 +7,9 @@ const gcg = {
     family: 'Helvetica',
     size: 9
   },
-  limit: 52,
+  limit: 7,
   padding: 2,
-  boxSize: 8
+  boxSize: 10
 }
 
 const GCGraph = id => {
@@ -41,7 +41,7 @@ const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, li
 
   // Months
   const monthOffsetX = offsetX
-  const monthOffsetY = offsetY
+  const monthOffsetY = offsetY + 2
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
 
@@ -64,8 +64,8 @@ const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, li
   boxes.map((box, index) => {
     if (index < 300) console.log(index)
     // move
-    const i = boxOffsetX + boxSizePadding * (index % limit)
-    const j = boxOffsetY + boxSizePadding * Math.floor(index / limit)
+    const i = boxOffsetX + boxSizePadding * Math.floor(index / limit)
+    const j = boxOffsetY + boxSizePadding * (index % limit)
 
     // shape
     draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
@@ -73,7 +73,7 @@ const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, li
 }
 
 document.body.appendChild(GCGraph(gcg.id))
-const MAX_DAY = 364
+const MAX_DAY = 365
 let boxes = []
 for (let i = 0; i < MAX_DAY; i++) {
   boxes.push({
