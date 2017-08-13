@@ -20,19 +20,17 @@ const GCGraph = id => {
   return element
 }
 
-const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
-  // Canvas
-  const draw = SVG(id).size('100%', '100%')
-
+const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, limit, padding }) => {
   // Global
   const boxSizePadding = boxSize + padding
+  const monthHeight = 16
   let offsetX = 0
-  const offsetY = 26
+  let offsetY = 0
 
   // Days
   const dayOffsetX = offsetX
-  const dayOffsetY = offsetY
-  let dayY = boxSizePadding
+  const dayOffsetY = offsetY + monthHeight
+  let dayY = boxSizePadding // Start at Sunday
   const drawDays = ['Mon', 'Wed', 'Fri']
   drawDays.map((day, index) => {
     const text = draw.text(day)
@@ -41,13 +39,9 @@ const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
   })
   offsetX += 26
 
-  const now = new Date()
-  const currentYear = now.getFullYear()
-  const currentMonth = now.getMonth()
-
   // Months
   const monthOffsetX = offsetX
-  const monthOffsetY = 10
+  const monthOffsetY = offsetY
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
 
@@ -62,6 +56,7 @@ const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
     // next
     daysInMonthSum += month.days
   })
+  offsetY += monthHeight
 
   // Boxes
   const boxOffsetX = offsetX
@@ -86,8 +81,12 @@ for (let i = 0; i < MAX_DAY; i++) {
   })
 }
 
+const now = new Date()
 drawGCGraph(
   Object.assign(gcg, {
-    boxes
+    draw: SVG(gcg.id).size('100%', '100%'),
+    boxes,
+    currentYear: now.getFullYear(),
+    currentMonth: now.getMonth()
   })
 )
