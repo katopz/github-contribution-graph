@@ -2,7 +2,7 @@ import { daysInMonth } from './helper'
 
 const GCGraph = id => {
   const element = document.createElement('div')
-  element.innerHTML = 'Summary'
+  element.innerHTML = 'Contributions'
   element.id = id
 
   return element
