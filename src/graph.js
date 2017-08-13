@@ -58,8 +58,9 @@ const drawGCGraph = (draw, { font, currentYear, currentMonth, boxSize, boxes, li
     element.data = box.data
     element.addClass('tooltip')
     const position = { x: i + boxSize - padding / 2, y: j }
-    element.mouseover(e => tooltip.show(position, element.data))
-    element.mouseout(e => tooltip.hide())
+    element.mouseover(() => tooltip.show(position, element.data))
+    element.click(() => tooltip.toggle(position, element.data))
+    element.mouseout(() => tooltip.hide())
   })
 }
 

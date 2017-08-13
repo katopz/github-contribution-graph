@@ -13,6 +13,11 @@ const GCTooltip = bubbleWidth => {
 
   element.hide = () => (element.style.visibility = 'hidden')
 
+  element.toggle = (position, data) => {
+    if (element.style.visibility === 'hidden') element.show(position, data)
+    else element.hide()
+  }
+
   addStyle(bubbleWidth)
 
   return element
