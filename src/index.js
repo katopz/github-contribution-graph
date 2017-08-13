@@ -1,5 +1,6 @@
 import SVG from 'svg.js'
-import { daysInMonth } from './helper'
+import { GCGraph, drawGCGraph } from './graph'
+import { CGTooltip } from './tooltip'
 
 const gcg = {
   id: 'gcg',
@@ -12,79 +13,27 @@ const gcg = {
   boxSize: 10
 }
 
-const GCGraph = id => {
-  var element = document.createElement('div')
-  element.innerHTML = 'Summary'
-  element.id = id
+const graph = GCGraph(gcg.id)
+document.body.appendChild(graph)
 
-  return element
-}
-
-const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, limit, padding }) => {
-  // Global
-  const boxSizePadding = boxSize + padding
-  const monthHeight = 16
-  let offsetX = 0
-  let offsetY = 0
-
-  // Days
-  const dayOffsetX = offsetX
-  const dayOffsetY = offsetY + monthHeight
-  let dayY = boxSizePadding // Start at Sunday
-  const drawDays = ['Mon', 'Wed', 'Fri']
-  drawDays.map((day, index) => {
-    const text = draw.text(day)
-    text.font(font).move(dayOffsetX, dayOffsetY + dayY)
-    dayY += boxSizePadding * 2
-  })
-  offsetX += 26
-
-  // Months
-  const monthOffsetX = offsetX
-  const monthOffsetY = offsetY + 2
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
-
-  const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
-
-  let daysInMonthSum = 0
-  slideMonths.map((month, index) => {
-    const monthX = Math.floor(daysInMonthSum / 7) * boxSizePadding
-    let text = draw.text(slideMonths[index].name)
-    text.font(font).move(monthOffsetX + monthX, monthOffsetY)
-
-    // next
-    daysInMonthSum += month.days
-  })
-  offsetY += monthHeight
-
-  // Boxes
-  const boxOffsetX = offsetX
-  const boxOffsetY = offsetY
-  boxes.map((box, index) => {
-    if (index < 300) console.log(index)
-    // move
-    const i = boxOffsetX + boxSizePadding * Math.floor(index / limit)
-    const j = boxOffsetY + boxSizePadding * (index % limit)
-
-    // shape
-    draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
-  })
-}
-
-document.body.appendChild(GCGraph(gcg.id))
+// Data
 const MAX_DAY = 365
 let boxes = []
 for (let i = 0; i < MAX_DAY; i++) {
   boxes.push({
-    color: ['red', 'green', 'blue'][Math.floor(Math.random() * 3)]
+    color: ['#2ecc71', '#f1c40f', '#f39c12', '#e67e22', '#d35400', '#e74c3c'][Math.floor(Math.random() * 6)]
   })
 }
+
+// Tool tip
+const tooltip = CGTooltip()
+document.body.appendChild(tooltip)
 
 const now = new Date()
 drawGCGraph(
   Object.assign(gcg, {
     draw: SVG(gcg.id).size('100%', '100%'),
+    tooltip,
     boxes,
     currentYear: now.getFullYear(),
     currentMonth: now.getMonth()
