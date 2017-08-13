@@ -1,4 +1,4 @@
-const CGTooltip = bubbleWidth => {
+const GCTooltip = bubbleWidth => {
   const element = document.createElement('span')
   element.id = 'tooltiptext'
   element.className = 'tooltiptext'
@@ -59,4 +59,4 @@ const addStyle = bubbleWidth => {
 
   head.appendChild(style)
 }
-export { CGTooltip }
+export { GCTooltip }

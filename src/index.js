@@ -1,6 +1,6 @@
 import SVG from 'svg.js'
 import { GCGraph, drawGCGraph } from './graph'
-import { CGTooltip } from './tooltip'
+import { GCTooltip } from './tooltip'
 import { config } from './config'
 import { getBoxes } from './seeder'
 
@@ -18,7 +18,7 @@ const graph = GCGraph(id)
 document.body.appendChild(graph)
 
 // Tooltip
-const tooltip = CGTooltip(bubbleWidth)
+const tooltip = GCTooltip(bubbleWidth)
 document.body.appendChild(tooltip)
 
 // Inject
