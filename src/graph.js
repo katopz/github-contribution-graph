@@ -8,10 +8,10 @@ const GCGraph = id => {
   return element
 }
 
-const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, limit, padding, tooltip }) => {
+const drawGCGraph = (draw, { font, currentYear, currentMonth, boxSize, boxes, limit, padding, tooltip, monthNames }) => {
   // Global
   const boxSizePadding = boxSize + padding
-  const monthHeight = 16
+  const monthHeight = 24
   let offsetX = 0
   let offsetY = 0
 
@@ -29,8 +29,7 @@ const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, li
 
   // Months
   const monthOffsetX = offsetX
-  const monthOffsetY = offsetY + 2
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const monthOffsetY = offsetY + 6
   const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
 
   const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
@@ -56,19 +55,11 @@ const drawGCGraph = ({ draw, font, currentYear, currentMonth, boxSize, boxes, li
 
     // Shape
     const element = draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
-    element.data = index
+    element.data = box.data
     element.addClass('tooltip')
-
-    // Events
-    const hover = (e, data) => {
-      // target.fill({ color: '#f06' })
-      // let text = draw.text('Hi')
-      // const { left: x, top: y } = target.node.getBoundingClientRect()
-      // text.font(font).move(x, y)
-      tooltip.show(e, data)
-    }
-
-    element.mouseover(e => hover(e, element.data))
+    const position = { x: i + boxSize - padding / 2, y: j }
+    element.mouseover(e => tooltip.show(position, element.data))
+    element.mouseout(e => tooltip.hide())
   })
 }
 
