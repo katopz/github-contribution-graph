@@ -3,6 +3,10 @@ import { daysInMonth } from './helper'
 
 const gcg = {
   id: 'gcg',
+  font: {
+    family: 'Helvetica',
+    size: 9
+  },
   limit: 52,
   padding: 2,
   boxSize: 8
@@ -16,33 +20,45 @@ const GCGraph = id => {
   return element
 }
 
-const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
+const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
   // Canvas
   const draw = SVG(id).size('100%', '100%')
+
+  // Global
+  const boxSizePadding = boxSize + padding
+  let offsetX = 0
+  const offsetY = 26
+
+  // Days
+  const dayOffsetX = offsetX
+  const dayOffsetY = offsetY
+  let dayY = boxSizePadding
+  const drawDays = ['Mon', 'Wed', 'Fri']
+  drawDays.map((day, index) => {
+    let text = draw.text(day)
+    text.font(font).move(dayOffsetX, dayOffsetY + dayY)
+    dayY += boxSizePadding * 2
+  })
+  offsetX += 26
 
   const now = new Date()
   const currentYear = now.getFullYear()
   const currentMonth = new Date().getMonth()
 
   // Months
-  const monthOffsetX = 0
+  const monthOffsetX = offsetX
   const monthOffsetY = 10
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
 
   const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
-  const boxSizePadding = boxSize + padding
 
   let monthIndex = 0
   let daysInMonthSum = 0
   slideMonths.map(month => {
     const monthX = Math.floor(daysInMonthSum / 7) * boxSizePadding
     let text = draw.text(slideMonths[monthIndex].name)
-    text
-      .font({
-        family: 'Helvetica'
-      })
-      .move(monthOffsetX + monthX, monthOffsetY)
+    text.font(font).move(monthOffsetX + monthX, monthOffsetY)
 
     // next
     monthIndex++
@@ -50,13 +66,13 @@ const drawGCGraph = ({ id, boxSize, boxes, limit, padding }) => {
   })
 
   // Boxes
-  const boxX = 0
-  const boxY = 40
+  const boxOffsetX = offsetX
+  const boxOffsetY = offsetY
   let index = 0
   boxes.map(box => {
     // move
-    const i = boxX + boxSizePadding * (index % limit)
-    const j = boxY + boxSizePadding * Math.floor(index / limit)
+    const i = boxOffsetX + boxSizePadding * (index % limit)
+    const j = boxOffsetY + boxSizePadding * Math.floor(index / limit)
 
     // shape
     draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
