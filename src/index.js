@@ -2,6 +2,7 @@ import SVG from 'svg.js'
 import { GCGraph, drawGCGraph } from './graph'
 import { CGTooltip } from './tooltip'
 import { config } from './config'
+import { getBoxes } from './seeder'
 
 // Config
 const { id, w, h, bubbleWidth } = config
@@ -10,15 +11,7 @@ const currentYear = now.getFullYear()
 const currentMonth = now.getMonth()
 
 // Data
-const contributeOrNot = (count, at) => (count === 0 ? 'No contributions' : `${count} contributions`)
-const MAX_DAY = 365
-let boxes = []
-for (let i = 0; i < MAX_DAY; i++) {
-  boxes.push({
-    color: ['#ecf0f1', '#2ecc71', '#f1c40f', '#f39c12', '#e67e22', '#d35400', '#e74c3c'][Math.floor(Math.random() * 7)],
-    data: `${contributeOrNot(Math.floor(10 * Math.random()))} on ${new Date(currentYear, 0, i).toDateString()}`
-  })
-}
+const boxes = getBoxes(currentYear)
 
 // Graph
 const graph = GCGraph(id)
