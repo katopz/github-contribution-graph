@@ -53,38 +53,33 @@ const drawGCGraph = ({ id, font, boxSize, boxes, limit, padding }) => {
 
   const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
 
-  let monthIndex = 0
   let daysInMonthSum = 0
-  slideMonths.map(month => {
+  slideMonths.map((month, index) => {
     const monthX = Math.floor(daysInMonthSum / 7) * boxSizePadding
-    let text = draw.text(slideMonths[monthIndex].name)
+    let text = draw.text(slideMonths[index].name)
     text.font(font).move(monthOffsetX + monthX, monthOffsetY)
 
     // next
-    monthIndex++
     daysInMonthSum += month.days
   })
 
   // Boxes
   const boxOffsetX = offsetX
   const boxOffsetY = offsetY
-  let index = 0
-  boxes.map(box => {
+  boxes.map((box, index) => {
+    if (index < 300) console.log(index)
     // move
     const i = boxOffsetX + boxSizePadding * (index % limit)
     const j = boxOffsetY + boxSizePadding * Math.floor(index / limit)
 
     // shape
     draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
-
-    // next
-    index++
   })
 }
 
 document.body.appendChild(GCGraph(gcg.id))
 const MAX_DAY = 364
-let boxes = new Array(MAX_DAY)
+let boxes = []
 for (let i = 0; i < MAX_DAY; i++) {
   boxes.push({
     color: ['red', 'green', 'blue'][Math.floor(Math.random() * 3)]
