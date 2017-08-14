@@ -8,7 +8,7 @@ const GCGraph = id => {
   return element
 }
 
-const drawGCGraph = (draw, { font, currentYear, currentMonth, boxSize, boxes, limit, padding, tooltip, monthNames }) => {
+const drawGCGraph = (draw, { font, year, month, boxSize, boxes, limit, padding, tooltip, monthNames }) => {
   // Global
   const boxSizePadding = boxSize + padding
   const monthHeight = 24
@@ -30,9 +30,9 @@ const drawGCGraph = (draw, { font, currentYear, currentMonth, boxSize, boxes, li
   // Months
   const monthOffsetX = offsetX
   const monthOffsetY = offsetY + 6
-  const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, currentYear) }))
+  const months = monthNames.map((name, i) => ({ name, days: daysInMonth(i, year) }))
 
-  const slideMonths = months.slice(currentMonth, 12).concat(months.slice(0, currentMonth))
+  const slideMonths = months.slice(month, 12).concat(months.slice(0, month))
 
   let daysInMonthSum = 0
   slideMonths.map((month, index) => {

@@ -7,11 +7,12 @@ import { getBoxes } from './seeder'
 // Config
 const { id, w, h, bubbleWidth } = config
 const now = new Date()
-const currentYear = now.getFullYear()
-const currentMonth = now.getMonth()
+const year = now.getFullYear()
+const month = now.getMonth()
+const date = now.getDate()
 
 // Data
-const boxes = getBoxes(currentYear)
+const boxes = getBoxes(year, month, date)
 
 // Graph
 const graph = GCGraph(id)
@@ -27,7 +28,7 @@ drawGCGraph(
   Object.assign(config, {
     tooltip,
     boxes,
-    currentYear,
-    currentMonth
+    year,
+    month
   })
 )
