@@ -18,6 +18,11 @@ const getTooltipFromContributeTime = (i, year, month, date, contributeTime) => {
 }
 
 const getBoxes = (year, month, date) => {
+  const now = new Date()
+  year = year || now.getFullYear()
+  month = month || now.getMonth()
+  date = date || now.getDate()
+
   const totalDays = totalDaysInYear(year)
   const boxes = []
   for (let i = 0; i <= totalDays; i++) {

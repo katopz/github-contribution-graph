@@ -1,4 +1,5 @@
 import { daysInMonth } from './helper'
+import SVG from 'svg.js'
 
 const GCGraph = id => {
   const element = document.createElement('div')
@@ -8,7 +9,15 @@ const GCGraph = id => {
   return element
 }
 
-const drawGCGraph = (draw, { font, year, month, boxSize, boxes, limit, padding, tooltip, monthNames }) => {
+const drawGCGraph = ({ id, w, h, font, year, month, boxSize, limit, padding, monthNames }, boxes, tooltip) => {
+  // Canvas
+  const draw = SVG(id).size(w, h)
+
+  // Now
+  const now = new Date()
+  year = year || now.getFullYear()
+  month = month || now.getMonth()
+
   // Global
   const boxSizePadding = boxSize + padding
   const monthHeight = 24
@@ -57,11 +66,16 @@ const drawGCGraph = (draw, { font, year, month, boxSize, boxes, limit, padding, 
     const element = draw.rect(boxSize, boxSize).move(i, j).fill(box.color)
     element.id = box.id
     element.data = box.data
+
+    // Tooltip
+    if (!tooltip) return
     const position = { x: i + boxSize - padding / 2, y: j }
     element.mouseover(() => tooltip.show(box.id, position, element.data))
     element.click(() => tooltip.toggle(box.id, position, element.data))
     element.mouseout(() => tooltip.hide())
   })
+
+  return draw
 }
 
 export { GCGraph, drawGCGraph }
