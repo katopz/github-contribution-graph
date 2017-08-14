@@ -2,14 +2,24 @@
 import { totalDaysInYear } from './helper'
 
 const getBoxes = year => {
+  const colors = ['#eeeeee', '#c6e48b', '#7bc96f', '#239a3b', '#196127']
+  const getColorFromContributeTime = contributeTime => {
+    const maxContributions = 20
+    const total = colors.length - 1
+    const time = Math.min(contributeTime, maxContributions) / maxContributions
+    console.log(contributeTime, time)
+    return colors[Math.floor(time * total)]
+  }
   const contributeOrNot = (count, at) => (count === 0 ? 'No contributions' : `${count} contributions`)
+
   const totalDays = totalDaysInYear(year)
   const boxes = []
   for (let i = 0; i <= totalDays; i++) {
+    const contributeTime = Math.floor(20 * Math.random())
     boxes.push({
       id: `b${i}`,
-      color: ['#ecf0f1', '#2ecc71', '#f1c40f', '#f39c12', '#e67e22', '#d35400', '#e74c3c'][Math.floor(Math.random() * 7)],
-      data: `${contributeOrNot(Math.floor(10 * Math.random()))} on ${new Date(year, 0, i).toDateString()}`
+      color: getColorFromContributeTime(contributeTime),
+      data: `${contributeOrNot(contributeTime)} on ${new Date(year, 0, i).toDateString()}`
     })
   }
 
