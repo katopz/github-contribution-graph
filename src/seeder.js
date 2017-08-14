@@ -2,8 +2,11 @@
 import { totalDaysInYear } from './helper'
 
 const getBoxes = year => {
-  const colors = ['#eeeeee', '#c6e48b', '#7bc96f', '#239a3b', '#196127']
+  const colors = ['#c6e48b', '#7bc96f', '#239a3b', '#196127']
   const getColorFromContributeTime = contributeTime => {
+    // No contributions
+    if (contributeTime === 0) return '#eeeeee'
+
     const maxContributions = 20
     const total = colors.length - 1
     const time = Math.min(contributeTime, maxContributions) / maxContributions
