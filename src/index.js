@@ -4,7 +4,7 @@ import { config } from './config'
 import { getBoxes } from './seeder'
 
 // Config
-const { id, bubbleWidth } = config
+const { id, width } = config
 
 // Data
 const boxes = getBoxes()
@@ -14,7 +14,7 @@ const graph = GCGraph(id)
 document.body.appendChild(graph)
 
 // Tooltip
-const tooltip = GCTooltip(bubbleWidth)
+const tooltip = GCTooltip(width)
 document.body.appendChild(tooltip)
 
 // Inject

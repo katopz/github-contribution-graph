@@ -9,7 +9,7 @@ const config = {
   limit: 7,
   padding: 2,
   boxSize: 10,
-  bubbleWidth: 220,
+  width: 220,
   monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 }
 export { config }

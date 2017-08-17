@@ -31,13 +31,13 @@ const GCTooltip = width => {
   return element
 }
 
-const addStyle = bubbleWidth => {
+const addStyle = width => {
   const css = `
 .tooltiptext {
     visibility: hidden;
     font-family:'Helvetica';
     font-size: 0.8em;
-    width: ${bubbleWidth}px;
+    width: ${width}px;
     background-color: black;
     color: #fff;
     text-align: center;
