@@ -1,4 +1,4 @@
-const GCTooltip = bubbleWidth => {
+const GCTooltip = width => {
   const element = document.createElement('span')
   element.id = 'tooltiptext'
   element.className = 'tooltiptext'
@@ -8,7 +8,7 @@ const GCTooltip = bubbleWidth => {
   element.show = (id, position, data) => {
     element.style.visibility = 'visible'
     element.firstChild.data = data
-    element.style.left = `${position.x - bubbleWidth / 2}px`
+    element.style.left = `${position.x - width / 2}px`
     element.style.top = `${position.y}px`
     element.target = id
   }
@@ -26,7 +26,7 @@ const GCTooltip = bubbleWidth => {
     }
   }
 
-  addStyle(bubbleWidth)
+  addStyle(width)
 
   return element
 }
